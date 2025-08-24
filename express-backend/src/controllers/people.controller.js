@@ -7,6 +7,13 @@ const getPeopleFriendshipStatus = asyncHandler(async (req, res) => {
     const personProfilePersonId = req.params.id;
     const user = req.user.id;
 
+    if(personProfilePersonId == user){
+        var userItself = true
+    }
+    else{
+        var userItself = false
+    }
+
     if (!user) {
         var loggedin = false;
     }
@@ -33,6 +40,10 @@ const getPeopleFriendshipStatus = asyncHandler(async (req, res) => {
     }
 
     res.status(200)
-        .json(new ApiResponse(200, { friends: friends }, "Friendship status fetched successfully"));
+        .json(new ApiResponse(200, { friends: friends , userThemself: userItself }, "Friendship status fetched successfully"));
 
 })
+
+export default {
+    getPeopleFriendshipStatus
+}
