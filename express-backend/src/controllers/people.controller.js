@@ -1,11 +1,11 @@
-import asyncHandler from "../utils/asyncHandler.js";
-import ApiError from "../utils/APIError.js";
-import ApiResponse from "../utils/ApiResponse.js"
+import {asyncHandler} from "../utils/asyncHandler.js";
+import {ApiError} from "../utils/ApiError.js";
+import {ApiResponse} from "../utils/ApiResponse.js"
 import { Friend } from "../models/friends.model.js";
 
 const getPeopleFriendshipStatus = asyncHandler(async (req, res) => {
     const personProfilePersonId = req.params.id;
-    const user = req.user.id;
+    const user = req.params.id2;
 
     if(personProfilePersonId == user){
         var userItself = true
@@ -36,7 +36,7 @@ const getPeopleFriendshipStatus = asyncHandler(async (req, res) => {
         var friends = "no"
     }
     else {
-        var friends = finder[0].status;
+        var friends = finder[0];
     }
 
     res.status(200)
@@ -44,6 +44,6 @@ const getPeopleFriendshipStatus = asyncHandler(async (req, res) => {
 
 })
 
-export default {
+export {
     getPeopleFriendshipStatus
 }
