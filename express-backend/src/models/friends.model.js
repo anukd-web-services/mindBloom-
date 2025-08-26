@@ -5,7 +5,7 @@ const FriendSchema = new mongoose.Schema({
         {
             ProfileOfUser: { type: String, required: true },
             WatchingUser: { type: String, required: true },
-            status: { type: String, enum: ['pending', 'friends', 'blocked' , 'incoming']},
+            status: { type: String, enum: ['pending', 'friends', 'blocked' , 'incoming' , 'rejected']},
             since: { type: Date, default: Date.now }
         }
     ]
