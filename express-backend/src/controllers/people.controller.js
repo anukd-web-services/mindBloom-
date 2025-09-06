@@ -67,7 +67,7 @@ const friendshipStuff = asyncHandler(async (req, res) => {
         })
         whatIDid = 'sentFR'
     }
-    
+
     else if (currentToDo == 'sendFR') {
         await Friend.findOneAndUpdate({ ProfileOfUser: personProfilePersonId, WatchingUser: user }, { status: 'pending' })
         whatIDid = 'sentFR'
@@ -115,12 +115,13 @@ const incomingFR = asyncHandler(async (req, res) => {
     }
     else {
         noFRs = false;
-    }    
+    }
 
     res.status(200)
-        .json(new ApiResponse(200, { incomingFRs: incomingFRs , noFRs: noFRs }, "Incoming friend requests fetched successfully"));
+        .json(new ApiResponse(200, { incomingFRs: incomingFRs, noFRs: noFRs }, "Incoming friend requests fetched successfully"));
 
 })
+
 const outgoingFR = asyncHandler(async (req, res) => {
     const user = req.params.id;
     // const user = req.user.id
@@ -138,10 +139,45 @@ const outgoingFR = asyncHandler(async (req, res) => {
     }
     else {
         noFRs = false;
-    }    
+    }
 
     res.status(200)
-        .json(new ApiResponse(200, { outgoingFRs: outgoingFRs , noFRs: noFRs }, "Outgoing friend requests fetched successfully"));
+        .json(new ApiResponse(200, { outgoingFRs: outgoingFRs, noFRs: noFRs }, "Outgoing friend requests fetched successfully"));
+
+})
+
+const myFriends = asyncHandler(async (req, res) => {
+    const user = req.params.id;
+    // const user = req.user.id
+
+    if (!user) {
+        console.log("User not logged in");
+    }
+
+    const friends = await Friend.find({ ProfileOfUser: user, WatchingUser: user, status: 'friends' });
+
+    let noFriends
+
+    if (friends.length === 0) {
+        noFriends = true;
+    }
+    else {
+        noFriends = false;
+    }
+
+    res.status(200)
+        .json(new ApiResponse(200, { friends: friends, noFriends: noFriends }, "Friends fetched successfully"));
+
+})
+
+const exploreFriends = asyncHandler(async (req, res) => {
+    const user = req.params.id;
+    // const user = req.user.id
+    if (!user) {
+        console.log("User not logged in");
+    }
+
+    // FETCH ALL THE PEOPLE WITH SIMILAR FIELDS OF INTREST AS THE USER 
 
 })
 
@@ -149,5 +185,7 @@ export {
     getPeopleFriendshipStatus,
     friendshipStuff,
     incomingFR,
-    outgoingFR
+    outgoingFR,
+    myFriends,
+    exploreFriends
 }
